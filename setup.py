@@ -10,7 +10,7 @@ setup(
     license='MIT',
     keywords='google api',
     packages=find_packages(),
-    install_requires=[ 'requests', 'httplib2', 'oauth2client', 'apiclient', ],
+    install_requires=[ 'requests', 'httplib2', 'oauth2client', ],
     python_requires='>=3.6',
     include_package_data=True,
 )
