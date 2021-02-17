@@ -1,4 +1,40 @@
+from dataclasses import dataclass
+from typing import List
+from apiclient.discovery import Resource
 
+@dataclass
+class DriveService:
+    service: Resource
+    
+    def files_in_folder( self, folder_id ):
+        response = self.service.files().list(
+            q = f'"{folder_id}" in parents',
+            orderBy = 'name',
+            fields = 'files/id,files/name,files/webViewLink',
+        ).execute()
+        return response['files']
+
+    # def retrieve_file( self, file_id ):
+        
+
+@dataclass
+class DriveFile:
+    id: str
+    name: str
+    mimeType: str
+    trashed: bool
+    driveId: str
+    parents: List[str]
+    webViewLink: str
+    # permissions: List[str]
+
+def build_drive_service( client_secrets, SCOPES ):
+    from apiclient.discovery import build
+    http_creds = authenticate( client_secrets, SCOPES )
+    service = build('drive', 'v3', http=http_creds)
+    return DriveService( service = service )
+
+    
 def authenticate( client_secrets, SCOPES ):
     """
         returns http credentials object
@@ -6,7 +42,6 @@ def authenticate( client_secrets, SCOPES ):
     from oauth2client import client, file, tools
     import requests
     import json
-    from apiclient.discovery import build
     from httplib2 import Http
 
     with open('client_secrets.json','w') as f:
