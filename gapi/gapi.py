@@ -15,7 +15,13 @@ class DriveService:
         return response['files']
 
     # def retrieve_file( self, file_id ):
-        
+    
+    def get_file( self, file_id ):
+        response = self.service.files().get( 
+            fileId = file_id, 
+            fields = 'files/id,files/name,files/mimeType,files/trashed,files/parents,files/webViewLink'
+        ).execute()
+        return DriveFile( **response )
 
 @dataclass
 class DriveFile:
@@ -23,7 +29,7 @@ class DriveFile:
     name: str
     mimeType: str
     trashed: bool
-    driveId: str
+    # driveId: str
     parents: List[str]
     webViewLink: str
     # permissions: List[str]
