@@ -19,7 +19,7 @@ class DriveService:
     def get_file( self, file_id ):
         response = self.service.files().get( 
             fileId = file_id, 
-            fields = 'files/id,files/name,files/mimeType,files/trashed,files/parents,files/webViewLink'
+            fields = 'id,name,mimeType,trashed,parents,webViewLink'
         ).execute()
         return DriveFile( **response )
 
